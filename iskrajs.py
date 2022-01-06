@@ -87,6 +87,13 @@ class LEDpwm(PWM):
         super().__init__(p, freq=1250, width=255)
 
     def brightness(self, val=None) -> int:
+        if val is not None:
+            if val < 0:
+                val = 0
+            if val > 100:
+                val = 100
+        else:
+            return self._brightness
         if val == 0:
             self.p.low()
             self.duty(0)
@@ -95,8 +102,7 @@ class LEDpwm(PWM):
         if val is not None and val > 0:
             self.duty(val)
             self._brightness = val
-        else:
-            return self._brightness
+
 
 
 class Ultrasonic:
