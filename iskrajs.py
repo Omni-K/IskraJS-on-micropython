@@ -1,16 +1,31 @@
-from pyb import Pin, Timer
-from time import sleep
+from pyb import Timer
+from machine import Pin
 
 
 class LED(Pin):
+    is_on = False
+
+    def __init__(self, id):
+        super().__init__(id, Pin.OUT)
+
+    def value(self, v):
+        super().value(v)
+        self.is_on = bool(v)
+
     def on(self):
         self.value(1)
 
     def off(self):
         self.value(0)
 
+    def high(self):
+        self.value(1)
+
+    def low(self):
+        self.value(0)
+
     def toggle(self):
-        if self.value():
+        if self.is_on:
             self.value(0)
         else:
             self.value(1)
@@ -50,7 +65,7 @@ class PWM():
 
         if p not in self.pin_dict.keys():
             raise ValueError(p + ' Pin is not PWM')
-        self.p = Pin(p, Pin.OUT_PP)
+        self.p = Pin(p, Pin.OUT)
         self.t = Timer(self.pin_dict[p][0], freq=freq)
         self.cnl = self.t.channel(self.pin_dict[p][1], Timer.PWM, pin=self.p)
         self.cnl.pulse_width(width)
