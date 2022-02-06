@@ -7,8 +7,8 @@ from utime import sleep_us
 class LED(Pin):
     is_on = False
 
-    def __init__(self, id):
-        super().__init__(id, Pin.OUT)
+    def __init__(self, pid):
+        super().__init__(pid, Pin.OUT)
 
     def value(self, v):
         super().value(v)
