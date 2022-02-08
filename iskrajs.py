@@ -189,16 +189,11 @@ class Ultrasonic:
 
 class MicroservoFS90(PWM):
     _angle = 0
-    maxDuty = 9000
-    minDuty = 1000
-    duty = 1000
 
-    @overload
     def angle(self):
         return self._angle
 
-    @overload
-    def angle(self, angle: int) -> None:
+    def rotate(self, angle: int) -> None:
         if angle > 180: self._angle = 180
         if angle < 0: self._angle = 0
         self.duty(self._angle / 180)
