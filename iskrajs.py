@@ -2,6 +2,7 @@ from pyb import Timer
 from machine import Pin
 from machine import time_pulse_us
 from utime import sleep_us
+from typing import overload
 
 
 class LED(Pin):
@@ -104,7 +105,6 @@ class LEDpwm(PWM):
             self._brightness = val
 
 
-
 class Ultrasonic:
     """
     Driver to use the untrasonic sensor HC-SR04.
@@ -185,3 +185,23 @@ class Ultrasonic:
         # 0.034320 cm/us that is 1cm each 29.1us
         cms = (pulse_time / 2) / 29.1
         return cms
+
+
+class MicroservoFS90(PWM):
+    _angle = 0
+    maxDuty = 9000
+    minDuty = 1000
+    duty = 1000
+
+    @overload
+    def angle(self):
+        return self._angle
+
+    @overload
+    def angle(self, angle: int) -> None:
+        if angle > 180: self._angle = 180
+        if angle < 0: self._angle = 0
+        self.duty(self._angle / 180)
+
+
+
