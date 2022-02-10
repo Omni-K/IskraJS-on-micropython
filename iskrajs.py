@@ -10,6 +10,7 @@ class LED(Pin):
 
     def __init__(self, pid):
         super().__init__(pid, Pin.OUT)
+        self.value(0)
 
     def value(self, v):
         super().value(v)
