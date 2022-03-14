@@ -7,9 +7,11 @@ from typing import overload
 
 class LED(Pin):
     is_on = False
+    pin = ''
 
-    def __init__(self, pid):
+    def __init__(self, pid:str):
         super().__init__(pid, Pin.OUT)
+        self.pin = pid
         self.value(0)
 
     def value(self, v):
