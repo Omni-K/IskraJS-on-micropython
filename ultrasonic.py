@@ -57,7 +57,8 @@ class Ultrasonic(object):
         time_pulse = time_pulse_us(self.echo, 1, self.timeout)
 
         if time_pulse < 0:
-            raise MeasurementTimeout(self.timeout)
+            print("Measurement timeout, exceeded {} us".format(self.timeout))
+            # raise MeasurementTimeout(self.timeout)
 
         # Divide the duration of the pulse by 2 (round-trip) and then divide it
         # by 29 us/cm (speed of sound = ~340 m/s)
