@@ -50,11 +50,14 @@ class PWM:
 
 
 def convert_from_angle_to_duty(angles: int):
-    dmin = 2.3
-    dmax = 12
+    dmin = 2.5
+    dmax = 12.5
+    delta = dmax - dmin
     amin = 0
     amax = 180
-    return angles * (dmax - dmin) / amax
+    val = dmin + angles * int(delta / amax * 100)/100
+    # print(val)
+    return val
 
 
 class ServoFS90:
@@ -62,7 +65,7 @@ class ServoFS90:
     _angle: int = 0
 
     def __init__(self, pin: str):
-        self._servo = PWM(pin, freq=50, width=4095)
+        self._servo = PWM(pin, freq=50, width=5)
 
     def set_angle(self, angle):
         self._angle = angle
@@ -70,3 +73,4 @@ class ServoFS90:
 
     def get_angle(self):
         return self._angle
+
