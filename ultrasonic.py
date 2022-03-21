@@ -22,6 +22,7 @@
 from time import sleep_us
 from machine import Pin, time_pulse_us
 
+allowed_echo_pins = ('P8', 'P9', 'P10', 'P11', 'P12', 'P13')
 
 class MeasurementTimeout(Exception):
     def __init__(self, timeout):
@@ -43,6 +44,9 @@ class Ultrasonic(object):
 
         # Init echo pin (in)
         self.echo = Pin(echo_pin, mode=Pin.IN, pull=None)
+        if echo_pin not in allowed_echo_pins:
+            print('! Эхо-пины от P0 до P7 должны быть использованы с резистором на 1 кОм')
+            print('  В противном случае показания будут некорректны')
 
     def distance_in_inches(self):
         return (self.distance_in_cm() * 0.3937)
