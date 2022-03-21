@@ -62,7 +62,7 @@ class ServoFS90:
     _angle: int = 0
 
     def __init__(self, pin: str):
-        self._servo(pin, freq=50, width=4095)
+        self._servo = PWM(pin, freq=50, width=4095)
 
     def set_angle(self, angle):
         self._angle = angle
