@@ -1,15 +1,17 @@
 from __future__ import annotations
-
 from pyb import Timer
 from machine import Pin
-
 
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
 __version__ = "1.0.0"  # Version set by https://github.com/hlovatt/tag2ver
 
+
 class PWM:
+    """
+    Класс для работы с ШИМ-пинами в Iskra
+    """
     pin = None
     freq = None
     width = None
@@ -49,11 +51,19 @@ class PWM:
         self.cnl.pulse_width(width)
 
     def duty(self, percent: int | float, /) -> None:
+        """
+        Зпускает импульсы в пин.
+        percent: Процентное значение единичных импульсов
+        """
         if percent < 0:
             percent = 0
         if percent > 100:
             percent = 100
         self.cnl.pulse_width_percent(percent)
 
-    def value(self, percent):
+    def value(self, percent: int | float, /) -> None:
+        """
+        Зпускает импульсы в пин. Полный синоним функции duty
+        percent: Процентное значение единичных импульсов
+        """
         self.duty(percent)
