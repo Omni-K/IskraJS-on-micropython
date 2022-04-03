@@ -1,4 +1,3 @@
-from __future__ import annotations
 from pyb import Timer
 from machine import Pin
 
@@ -44,7 +43,7 @@ class PWM:
         self.cnl = self.t.channel(self.pin_dict[p][1], Timer.PWM, pin=self.p)
         self.cnl.pulse_width(width)
 
-    def duty(self, percent: int | float, /) -> None:
+    def duty(self, percent: float) -> None:
         """
         Зпускает импульсы в пин.
         percent: Процентное значение единичных импульсов
@@ -55,7 +54,7 @@ class PWM:
             percent = 100
         self.cnl.pulse_width_percent(percent)
 
-    def value(self, percent: int | float, /) -> None:
+    def value(self, percent: float) -> None:
         """
         Зпускает импульсы в пин. Полный синоним функции duty
         percent: Процентное значение единичных импульсов

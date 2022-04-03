@@ -1,11 +1,6 @@
-from time import sleep
-from iskrajs import LED
+from motors2wd import Motors2WD
 
-p = LED('P0')
-k = LED('P1')
+moving_platform = Motors2WD()
 
-k.on()
 while True:
-    sleep(1)
-    p.toggle()
-    k.toggle()
+    moving_platform.forward(100)
