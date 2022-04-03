@@ -16,13 +16,11 @@ def _convert_from_angle_to_duty(angles: int):
     dmin = 2.5
     dmax = 12.5
     delta = dmax - dmin
-    amin = 0
-    amax = 180
     if angles <= 0:
         angles = 0
     if angles >= 180:
         angles = 180
-    val = dmin + angles * int(delta / amax * 100) / 100
+    val = dmin + angles * int(delta / 180 * 100) / 100
     return val
 
 
