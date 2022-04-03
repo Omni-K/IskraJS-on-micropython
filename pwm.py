@@ -10,15 +10,9 @@ __version__ = "1.0.0"  # Version set by https://github.com/hlovatt/tag2ver
 
 class PWM:
     """
-    Класс для работы с ШИМ-пинами в Iskra
+    Класс для работы с ШИМ-пинами в IskraJS
     """
-    pin = None
-    freq = None
-    width = None
-    cnl = None
-    t = None
-    p = None
-
+    __slots__ = ['pin', 'freq', 'width', 'cnl', 't', 'p']
     pin_dict = {'A0': (2, 1),
                 'A1': (2, 2),
                 'A2': (2, 3),
