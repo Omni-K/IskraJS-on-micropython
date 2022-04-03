@@ -1,3 +1,7 @@
+"""
+Класс для реализации работы микросервоприводов с платой IskraJS с micropython 1.13
+Поддерживаемые сервоприводы: Feetech FS90
+"""
 from pyb import Timer
 from machine import Pin
 
@@ -50,17 +54,26 @@ class PWM:
 
 
 def convert_from_angle_to_duty(angles: int):
+    """
+    Преобразует угол в ШИМ
+    """
     dmin = 2.5
     dmax = 12.5
     delta = dmax - dmin
     amin = 0
     amax = 180
-    val = dmin + angles * int(delta / amax * 100)/100
-    # print(val)
+    if angles <= 0:
+        angles = 0
+    if angles >= 180:
+        angles = 180
+    val = dmin + angles * int(delta / amax * 100) / 100
     return val
 
 
 class ServoFS90:
+    """
+    Класс работы с микросервоприводом Feetech FS90
+    """
     _servo: PWM
     _angle: int = 0
 
@@ -68,9 +81,14 @@ class ServoFS90:
         self._servo = PWM(pin, freq=50, width=5)
 
     def set_angle(self, angle):
+        """
+        Устанавливает угол поворота
+        """
         self._angle = angle
         self._servo.duty(convert_from_angle_to_duty(angle))
 
     def get_angle(self):
+        """
+        Возвращает текущий угол
+        """
         return self._angle
-
