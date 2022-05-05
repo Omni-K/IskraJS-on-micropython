@@ -46,6 +46,10 @@ class PWM:
         self.cnl = self.t.channel(self.pin_dict[p][1], Timer.PWM, pin=self.p)
         self.cnl.pulse_width(width)
 
+    def frequency(self, hz: int):
+        self.freq = hz
+        self = self.__init__(self.pin, self.freq, self.width)
+
     def duty(self, percent: float) -> None:
         """
         Зпускает импульсы в пин.
