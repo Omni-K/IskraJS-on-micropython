@@ -4,7 +4,7 @@ from machine import Pin
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
-__version__ = "1.0.0"  # Version set by https://github.com/hlovatt/tag2ver
+__version__ = "1.0.0"
 
 
 class PWM:
@@ -32,6 +32,9 @@ class PWM:
                 }
 
     def __init__(self, p: str, freq=500, width=255):
+        if freq <= 0:
+            print('\033[31mWarning: Частота не может быть меньше 1 Hz\033[0m')
+            freq = 1
         self.pin = p
         self.freq = freq
         self.width = width
@@ -55,6 +58,13 @@ class PWM:
         self.cnl.pulse_width_percent(percent)
 
     def value(self, percent: float) -> None:
+        """
+        Зпускает импульсы в пин. Полный синоним функции duty
+        percent: Процентное значение единичных импульсов
+        """
+        self.duty(percent)
+
+    def pulse_width_percent(self, percent: int):
         """
         Зпускает импульсы в пин. Полный синоним функции duty
         percent: Процентное значение единичных импульсов
