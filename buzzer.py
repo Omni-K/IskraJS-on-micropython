@@ -1,3 +1,7 @@
+"""
+Модуль для пьезогенератора
+Вдохновлён https://github.com/fruch/micropython-buzzer
+"""
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
