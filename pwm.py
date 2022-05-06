@@ -68,7 +68,7 @@ class PWM:
         """
         self.duty(percent)
 
-    def pulse_width_percent(self, percent: int):
+    def pulse_width_percent(self, percent: float):
         """
         Зпускает импульсы в пин. Полный синоним функции duty
         percent: Процентное значение единичных импульсов
