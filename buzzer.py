@@ -312,12 +312,16 @@ class BuzzerPlayer(object):
             sex_bomb="t=125 8c2 8- 4a1 8c2 8- 4a1 8- 4d2 8c2 4e2 16c2 16d2 4e2 4c2 8c2 8c2 8c2 8c2 8c2 8c2 8a1 8c2 8a1 8a1 8g1 4a1 8c2 8- 4a1 8c2 8- 4a1 8- 4d2 8c2 4e2 4c2 8- 4c2 8a1 8c2 8a1 8g1 16- 8#g1 16- 4a1",
             colors_of_the_night="t=80 2#g2 8c2 2#c2 4g2 8#g2 4#a2 8c2 8#a1 2#g1 2f2 8#g1 2g1 8f2 16e2 8f2 2g2 2#g2 8c2 2#c2 4g2 8#g2 4#a2 8c2 8#a1 2#g1 2f2 8#g1 2g1 8f2 8e2 8f2 2g2 8#a1 8c2 8c2 4c2 4#c2 2#a2 8#a1 8#a2 8#a2 4#a2 4c2 4#a2 8#g2 4g2 2#g2 8c2 8c2 4c2",
             boomer="t=100 8e2 4g2 4- 8g2 4e2 4- 8a2 8g2 8a2 8g2 8a2 8g2 8a2 8g2 8a2 4b2",
+            boomer2="t=200 4a1 4g1 4f1 4e1 4d1 4- 4a1 4g1 4f1 4e1 4d1 4- 4a1 4g1 4f1 4- 4#a1 4a1 4g1 4f1 4e1 4- 4#a1 4a1 4g1 4f1 4e1",
             ddt_fall="t=100 8e2 16c2 8b1 8a1 8e2 8b1 16b1 8c2 8b1 2a1 8a1 16a1 8a1 8a1 8a1 8a1 16#c2 8e2 8g2 2f2 8d2 16d2 8d2 8d2 8g2 8f2 8e2 8d2 8e2 8e2 16e2 8d2 8c2 4a1 8- 8b1 8b1 8g2 8f2 8e1 16e1 8e2 8c2 8b1 2a1",
             sailormoon="t=100 4e2 8b1 4e2 4#f2 8g2 4a2 8g2 4#f2 4e2 8d2 1c2 1d2 4e2 8b1 4e2 4#f2 8g2 4a2 8g2 4#f2 4e2 8#f2 1g2 1a2 4- 4b2 8#g2 4a2 8b2 4c3 8a2 4e2 8g2 2#f2 32- 8#f2 8d3 8c3 1b2 4- 4a2 8#f2 4g2 8a2 4c3 8b2 4#d3 8b2 8a2 8#f2",
             mozart='t=240 8a2 16#g2 16- 8#g2 8- 8a2 16#g2 16- 8#g2 8- 8a2 16#g2 16- 4#g2 8.e3 4- 16- 8e3 16#d3 16- 8#c3 8- 8#c3 16b2 16- 8a2 8- 16.a2 32- 16#g2 16- 8#f2 8- 8#f2 4- 8- 16.#g2 32- 16.#f2 32- 8#f2 8- 8#g2 16#f2 16- 8#f2 8- 8#g2 16#f2 16- 4#f2 8#d3 4- 8- 8#d3 8#c3 8c3 8- 8c3 8a2 16.#g2 8- 32- 8#g2 8#f2 8e2 8- 8e2 4- 8- 8e3 16#d3 16- 4#d3 4#f3 4c3 4#d3 4#c3 4#g2 4- 16.e3 32- 16#d3 16- 4#d3 4#f3 4c3 4#d3 4#c3 4e3 8#d3 8#c3 8b2 8a2 1#g2 1g2 2#g2 4- 16#g1 16- 16#g1 16- 2#g1 4- 16#g1 16- 16#g1 16- 2#g1 4- 16#g1 16- 16#g1 16- 8#g1 8- 16#g1 16- 16#g1 16- 8#g1 8- 16#g1 16- 16#g1 16- 2#g1',
             tmnt="t=100 4- 8g2 8a2 8g2 8a2 8g2 16a2 8g2 16- 8a2 8#a2 8c3 8#a2 8c3 8#d3 16c3 8#a2 16- 8c3 8f3 8f3 8#d3 8f3 8#g3 16f3 8#d3 16- 8f3 16c3 16c3 16c3 16c3 8#a2 4c3 16c3 16c3 16c3 8c3",
             mortalkombat="t=140 8a1 8a1 8c2 8a1 8d2 8a1 8e2 8d2 8c2 8c2 8e2 8c2 8g2 8c2 8e2 8c2 8g1 8g1 8b1 8g1 8c2 8g1 8d2 8c2 8f1 8f1 8a1 8f1 8c2 8f1 8c2 8b1",
             ussr="t=100 8g1 4c2 8g1 16a1 4b1 8e1 8e1 4a1 8g1 16f1 4g1 8c1 8c1 4d1 8d1 8e1 4f1 8f1 8g1 4a1 8b1 8c2 4d2 8- 8g1 4e2 8d2 16c2 4d2 8b1 8g1 4c2 8b1 16a1 4b1 8e1 8e1 4a1 8g1 8f1 4g1 8c1 8c1 4c2 8b1 16a1 4g1",
+            fur_elise="t=100 8g2 8#f2 8g2 8#f2 8g2 8d2 8f2 8#d2 4c2 8a1 8#d1 8g1 8c2 4d2 8a1 8g1 8b1 8d2 4#d2 8a1 8g1 8g2 8#f2 8g2 8#f2 8g2 8d2 8f2 8#d2 4c2 8a1 8#d1 8g1 8c2 4d2 8a1 8g1 8#d2 8d2 4c2",
+            bach_fuga="t=100 8a1 8e1 8b1 8e1 8c2 8e1 8a1 8e1 8b1 8e1 8c2 8e1 8d2 8e1 8b1 8e1 8c2 8e1 8d2 8e1 8e2 8e1 8c2 8e1 8d2 8e1 8e2 8e1 8f2 8e1 8d2 8e1 8e2 8e1 8c2 8e1 8d2 8e1 8b1 8e1 8c2 8e1 8a1 8e1 8b1 8e1 8#g1 8e1 4a1",
+
         )
         if melodyname:
             self.play_nokia_tone(songs[melodyname], name=melodyname)
