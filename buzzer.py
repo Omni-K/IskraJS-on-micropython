@@ -296,7 +296,12 @@ class BuzzerPlayer(object):
             tempo = next(t)
         self.play_tune(tempo, t, transpose=transpose, name=name)
 
-    def play_melody(self, melodyname='pink_panther'):
+    def play_melody(self, melodyname=None):
+        """
+        Проигрывает предустановленную мелодию из списка
+        :param melodyname: имя мелодии
+        """
+        #  вдохновение http://forum.amperka.ru/threads/%D0%9C%D0%B5%D0%BB%D0%BE%D0%B4%D0%B8%D0%B8-%D0%B4%D0%BB%D1%8F-%D0%BF%D1%8C%D0%B5%D0%B7%D0%BE%D0%BF%D0%B8%D1%89%D0%B0%D0%BB%D0%BA%D0%B8.272/page-2
         songs = dict(
             pink_panther="t=200 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 16d2 16c2 16a1 8g1 1a1 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8c2 8e2 8a2 1#g2 8#g1 2a1 8b1 2c2 16#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 8d2 16c2 16a1",
             imperial_march="t=100 4e1 4e1 4e1 8c1 16- 16g1 4e1 8c1 16- 16g1 4e1 4- 4b1 4b1 4b1 8c2 16- 16g1 4#d1 8c1 16- 16g1 4e1 8-",
@@ -310,10 +315,16 @@ class BuzzerPlayer(object):
             ddt_fall="t=100 8e2 16c2 8b1 8a1 8e2 8b1 16b1 8c2 8b1 2a1 8a1 16a1 8a1 8a1 8a1 8a1 16#c2 8e2 8g2 2f2 8d2 16d2 8d2 8d2 8g2 8f2 8e2 8d2 8e2 8e2 16e2 8d2 8c2 4a1 8- 8b1 8b1 8g2 8f2 8e1 16e1 8e2 8c2 8b1 2a1",
             sailormoon="t=100 4e2 8b1 4e2 4#f2 8g2 4a2 8g2 4#f2 4e2 8d2 1c2 1d2 4e2 8b1 4e2 4#f2 8g2 4a2 8g2 4#f2 4e2 8#f2 1g2 1a2 4- 4b2 8#g2 4a2 8b2 4c3 8a2 4e2 8g2 2#f2 32- 8#f2 8d3 8c3 1b2 4- 4a2 8#f2 4g2 8a2 4c3 8b2 4#d3 8b2 8a2 8#f2",
             mozart='t=240 8a2 16#g2 16- 8#g2 8- 8a2 16#g2 16- 8#g2 8- 8a2 16#g2 16- 4#g2 8.e3 4- 16- 8e3 16#d3 16- 8#c3 8- 8#c3 16b2 16- 8a2 8- 16.a2 32- 16#g2 16- 8#f2 8- 8#f2 4- 8- 16.#g2 32- 16.#f2 32- 8#f2 8- 8#g2 16#f2 16- 8#f2 8- 8#g2 16#f2 16- 4#f2 8#d3 4- 8- 8#d3 8#c3 8c3 8- 8c3 8a2 16.#g2 8- 32- 8#g2 8#f2 8e2 8- 8e2 4- 8- 8e3 16#d3 16- 4#d3 4#f3 4c3 4#d3 4#c3 4#g2 4- 16.e3 32- 16#d3 16- 4#d3 4#f3 4c3 4#d3 4#c3 4e3 8#d3 8#c3 8b2 8a2 1#g2 1g2 2#g2 4- 16#g1 16- 16#g1 16- 2#g1 4- 16#g1 16- 16#g1 16- 2#g1 4- 16#g1 16- 16#g1 16- 8#g1 8- 16#g1 16- 16#g1 16- 8#g1 8- 16#g1 16- 16#g1 16- 2#g1',
-
-
+            tmnt="t=100 4- 8g2 8a2 8g2 8a2 8g2 16a2 8g2 16- 8a2 8#a2 8c3 8#a2 8c3 8#d3 16c3 8#a2 16- 8c3 8f3 8f3 8#d3 8f3 8#g3 16f3 8#d3 16- 8f3 16c3 16c3 16c3 16c3 8#a2 4c3 16c3 16c3 16c3 8c3",
+            mortalkombat="t=140 8a1 8a1 8c2 8a1 8d2 8a1 8e2 8d2 8c2 8c2 8e2 8c2 8g2 8c2 8e2 8c2 8g1 8g1 8b1 8g1 8c2 8g1 8d2 8c2 8f1 8f1 8a1 8f1 8c2 8f1 8c2 8b1",
+            ussr="t=100 8g1 4c2 8g1 16a1 4b1 8e1 8e1 4a1 8g1 16f1 4g1 8c1 8c1 4d1 8d1 8e1 4f1 8f1 8g1 4a1 8b1 8c2 4d2 8- 8g1 4e2 8d2 16c2 4d2 8b1 8g1 4c2 8b1 16a1 4b1 8e1 8e1 4a1 8g1 8f1 4g1 8c1 8c1 4c2 8b1 16a1 4g1",
         )
-        self.play_nokia_tone(songs[melodyname], name=melodyname)
+        if melodyname:
+            self.play_nokia_tone(songs[melodyname], name=melodyname)
+        else:
+            print('Допустимые имена мелодий:')
+            for idx, name in enumerate(songs.keys(), 1):
+                print(f' {idx}\t{name}')
 
     def tone(self, hz: int, duration=0, duty=30):
         """
