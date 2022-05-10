@@ -2,10 +2,12 @@
 Модуль для пьезогенератора
 Вдохновлён https://github.com/fruch/micropython-buzzer
 """
+# ToDo: изучить и улучшить базовый класс http://sotovaya.com/notes-nokia.html
+# много мелодий https://vk.com/topic-96676_22391837?ysclid=l2zvum0o9o
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
-__version__ = "1.2.0"
+__version__ = "1.5.0"
 __repo__ = "https://github.com/Omni-K/Iskra_JS_micropython"
 
 from math import pow
@@ -319,8 +321,10 @@ class BuzzerPlayer(object):
             tmnt="t=100 4- 8g2 8a2 8g2 8a2 8g2 16a2 8g2 16- 8a2 8#a2 8c3 8#a2 8c3 8#d3 16c3 8#a2 16- 8c3 8f3 8f3 8#d3 8f3 8#g3 16f3 8#d3 16- 8f3 16c3 16c3 16c3 16c3 8#a2 4c3 16c3 16c3 16c3 8c3",
             mortalkombat="t=140 8a1 8a1 8c2 8a1 8d2 8a1 8e2 8d2 8c2 8c2 8e2 8c2 8g2 8c2 8e2 8c2 8g1 8g1 8b1 8g1 8c2 8g1 8d2 8c2 8f1 8f1 8a1 8f1 8c2 8f1 8c2 8b1",
             ussr="t=100 8g1 4c2 8g1 16a1 4b1 8e1 8e1 4a1 8g1 16f1 4g1 8c1 8c1 4d1 8d1 8e1 4f1 8f1 8g1 4a1 8b1 8c2 4d2 8- 8g1 4e2 8d2 16c2 4d2 8b1 8g1 4c2 8b1 16a1 4b1 8e1 8e1 4a1 8g1 8f1 4g1 8c1 8c1 4c2 8b1 16a1 4g1",
-            fur_elise="t=100 8g2 8#f2 8g2 8#f2 8g2 8d2 8f2 8#d2 4c2 8a1 8#d1 8g1 8c2 4d2 8a1 8g1 8b1 8d2 4#d2 8a1 8g1 8g2 8#f2 8g2 8#f2 8g2 8d2 8f2 8#d2 4c2 8a1 8#d1 8g1 8c2 4d2 8a1 8g1 8#d2 8d2 4c2",
             bach_fuga="t=100 8a1 8e1 8b1 8e1 8c2 8e1 8a1 8e1 8b1 8e1 8c2 8e1 8d2 8e1 8b1 8e1 8c2 8e1 8d2 8e1 8e2 8e1 8c2 8e1 8d2 8e1 8e2 8e1 8f2 8e1 8d2 8e1 8e2 8e1 8c2 8e1 8d2 8e1 8b1 8e1 8c2 8e1 8a1 8e1 8b1 8e1 8#g1 8e1 4a1",
+            katyusha="t=100 4d2 8e2 4f2 8d2 8f2 8f2 8e2 8d2 4e2 4a1 4e2 8f2 4g2 8e2 8g2 8g2 8f2 8e2 2d2 4a2 4d3 4c3 8d3 8c3 8#a2 8#a2 8a2 8g2 4a2 4d2 8- 4#a2 8g2 4a2 8- 8f2 8g2 8g2 8f2 8e2 4d2 4-",
+            podmoskovnie_vechera="t=100 8d1 8f1 8a1 8f1 4g1 8f1 8e1 4a1 4g1 4d1 4- 8f1 8a1 8c2 8c2 4d2 8c2 8#a1 4a1 4- 4b1 4#c2 8e2 8d2 4a1 4- 8e1 8d1 8a1 8g1 4#a1 4- 8c2 8#a1 4a1 8g1 8f1 4a1 4g1 2d1",
+            brigada="t=112 16#g1 16#d2 16#c2 16e2 8#d2 16#d2 16b1 16#c2 16#d2 8e2 16#d2 2#g1 16#g1 16#d2 16#c2 16e2 4#d2 16#c2 16b1 8#a1 16b1 2#f1 16#g1 16#d2 16#c2 16e2 8#d2 16#d2 16b1 16#c2 16#d2 8e2 16#d2 4#f1 16- 16- 8#g1 16#a1 16b1 8#c2 16b1 4#g1 16- 16#g1 16b1 16#a1 16#g1 8#f1 2#g1",
 
         )
         if melodyname:
