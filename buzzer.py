@@ -298,7 +298,7 @@ class BuzzerPlayer(object):
             tempo = next(t)
         self.play_tune(tempo, t, transpose=transpose, name=name)
 
-    def play_melody(self, melodyname=None):
+    def play_melody(self, melodyname=None, transpose=6):
         """
         Проигрывает предустановленную мелодию из списка
         :param melodyname: имя мелодии
@@ -328,7 +328,7 @@ class BuzzerPlayer(object):
 
         )
         if melodyname:
-            self.play_nokia_tone(songs[melodyname], name=melodyname)
+            self.play_nokia_tone(songs[melodyname], transpose=transpose, name=melodyname)
         else:
             print('Допустимые имена мелодий:')
             for idx, name in enumerate(songs.keys(), 1):
