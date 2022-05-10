@@ -5,20 +5,18 @@
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
-__version__ = "0.3.0"
+__version__ = "1.2.0"
 __repo__ = "https://github.com/Omni-K/Iskra_JS_micropython"
 
 from math import pow
 
 import struct
 import sys
-import logging
-
-logger = logging.getLogger(__name__)
+from pwm import PWM
 
 
 class Note(object):
-    "Represents a single MIDI note"
+    """Represents a single MIDI note"""
 
     note_names = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
 
@@ -44,6 +42,7 @@ class MidiFile(object):
     """
     Represents the notes in a MIDI file
     """
+
     def read_byte(self, file):
         return struct.unpack('B', file.read(1))[0]
 
@@ -123,15 +122,12 @@ class MidiFile(object):
                             self.read_byte(file)
                             size -= 1
                             break
-                        logger.debug("Meta: %s", str(type))
                         length, size = self.read_variable_length(file, size)
                         message = file.read(length)
                         # if type not in [0x0, 0x7, 0x20, 0x2F, 0x51, 0x54, 0x58, 0x59, 0x7F]:
-                        logger.debug("%s %s", length, message)
                         if type == 0x51:  # qpm/bpm
                             # http://www.recordingblogs.com/sa/Wiki?topic=MIDI+Set+Tempo+meta+message
                             self.tempo = 6e7 / struct.unpack('>i', b'\x00' + message)[0]
-                            logger.debug("tempo = %sbpm", self.tempo)
                     # MIDI messages
                     else:
                         if flag & 0x80:
@@ -145,7 +141,6 @@ class MidiFile(object):
                         type = ((type_and_channel & 0xF0) >> 4)
                         channel = type_and_channel & 0xF
                         if type == 0xC:  # detect MIDI program change
-                            logger.debug("program change, channel %s = %s", channel, param1)
                             continue
                         size -= 1
                         param2 = self.read_byte(file)
@@ -154,7 +149,6 @@ class MidiFile(object):
                         if type == 0x9:
                             note = Note(channel, param1, param2, abs_time)
                             if nn == track_num:
-                                logger.debug("%s", note)
                                 track.append(str(note).split())
 
                         elif type == 0x8:
@@ -210,7 +204,7 @@ class MidiFile(object):
 
 
 def getdur(a, b):
-    "Calculate note length for PySynth"
+    """Calculate note length for PySynth"""
     return 4 / (b - a)
 
 
@@ -218,7 +212,6 @@ try:
     import re
 except ImportError:
     import ure as re
-
 
 # try:
 #     from rtttl import RTTTL
@@ -260,16 +253,8 @@ def isplit(iterable, sep=None):
 
 class BuzzerPlayer(object):
 
-    def __init__(self, pin="X8", timer_id=1, channel_id=1, callback=None, platform=None):
+    def __init__(self, pin="P8", callback=None):
 
-        if not platform:
-            platform = sys.platform
-
-        self.platform = platform
-        print(self.platform)
-
-        from machine import Pin
-        from pwm import PWM
         self.buzzer_pin = PWM(pin, freq=10000, width=0)
         self.callback = callback
 
@@ -311,10 +296,36 @@ class BuzzerPlayer(object):
             tempo = next(t)
         self.play_tune(tempo, t, transpose=transpose, name=name)
 
+    def play_melody(self, melodyname='pink_panther'):
+        songs = dict(
+            pink_panther="t=200 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 16d2 16c2 16a1 8g1 1a1 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8c2 8e2 8a2 1#g2 8#g1 2a1 8b1 2c2 16#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 8d2 16c2 16a1",
+            imperial_march="t=100 4e1 4e1 4e1 8c1 16- 16g1 4e1 8c1 16- 16g1 4e1 4- 4b1 4b1 4b1 8c2 16- 16g1 4#d1 8c1 16- 16g1 4e1 8-",
+            starwars="t=100 8#c1 8#c1 16#c1 2#f1 2#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8b1 2#g1 8#c1 8#c1 16#c1 2#f1 2#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8b1 2#g1 4#c1 16#c1 2#d1 8#c2 8b1 8#a1 8#g1 8#f1 16#f1 8#g1 16#a1 4#g1",
+            pulp_fiction="t=113 16f1 16f1 16f1 16f1 16f1 16f1 16f1 16f1 16a1 16a1 16a1 16a1 16#a1 16#a1 16#a1 16#a1 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16f1 16e2 16e2 16e2 16e2 16#c2 16#c2 16#c2 16#c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2",
+            agent007="t=100 16#d1 32f1 32f1 16f1 8f1 16#d1 16#d1 16#d1 16#d1 32#f1 32#f1 16#f1 8#f1 16f1 16f1 16f1 16#d1 32f1 32f1 16f1 8f1 16#d1 16#d1 16#d1 16#d1 32#f1 32#f1 16#f1 8#f1 16f1 16e1 16#d1 16#d2 2d2 16#a1 16#g1 2#a1",
+            american_pie="t=125 2g2 4f2 8f2 8f2 8e2 32d2 16- 32- 8c2 8d2 4- 8g2 32g2 16- 32- 32g2 16- 32- 32g2 16- 32- 32g2 16- 32- 32g2 16- 32- 32f2 16- 32- 32f2 16- 32- 32f2 16- 32- 32f2 16- 32- 8e2 32d2 16- 32- 8c2 8g1",
+            sex_bomb="t=125 8c2 8- 4a1 8c2 8- 4a1 8- 4d2 8c2 4e2 16c2 16d2 4e2 4c2 8c2 8c2 8c2 8c2 8c2 8c2 8a1 8c2 8a1 8a1 8g1 4a1 8c2 8- 4a1 8c2 8- 4a1 8- 4d2 8c2 4e2 4c2 8- 4c2 8a1 8c2 8a1 8g1 16- 8#g1 16- 4a1",
+            colors_of_the_night="t=80 2#g2 8c2 2#c2 4g2 8#g2 4#a2 8c2 8#a1 2#g1 2f2 8#g1 2g1 8f2 16e2 8f2 2g2 2#g2 8c2 2#c2 4g2 8#g2 4#a2 8c2 8#a1 2#g1 2f2 8#g1 2g1 8f2 8e2 8f2 2g2 8#a1 8c2 8c2 4c2 4#c2 2#a2 8#a1 8#a2 8#a2 4#a2 4c2 4#a2 8#g2 4g2 2#g2 8c2 8c2 4c2",
+            boomer="t=100 8e2 4g2 4- 8g2 4e2 4- 8a2 8g2 8a2 8g2 8a2 8g2 8a2 8g2 8a2 4b2",
+            ddt_fall="t=100 8e2 16c2 8b1 8a1 8e2 8b1 16b1 8c2 8b1 2a1 8a1 16a1 8a1 8a1 8a1 8a1 16#c2 8e2 8g2 2f2 8d2 16d2 8d2 8d2 8g2 8f2 8e2 8d2 8e2 8e2 16e2 8d2 8c2 4a1 8- 8b1 8b1 8g2 8f2 8e1 16e1 8e2 8c2 8b1 2a1",
+            sailormoon="t=100 4e2 8b1 4e2 4#f2 8g2 4a2 8g2 4#f2 4e2 8d2 1c2 1d2 4e2 8b1 4e2 4#f2 8g2 4a2 8g2 4#f2 4e2 8#f2 1g2 1a2 4- 4b2 8#g2 4a2 8b2 4c3 8a2 4e2 8g2 2#f2 32- 8#f2 8d3 8c3 1b2 4- 4a2 8#f2 4g2 8a2 4c3 8b2 4#d3 8b2 8a2 8#f2",
+            mozart='t=240 8a2 16#g2 16- 8#g2 8- 8a2 16#g2 16- 8#g2 8- 8a2 16#g2 16- 4#g2 8.e3 4- 16- 8e3 16#d3 16- 8#c3 8- 8#c3 16b2 16- 8a2 8- 16.a2 32- 16#g2 16- 8#f2 8- 8#f2 4- 8- 16.#g2 32- 16.#f2 32- 8#f2 8- 8#g2 16#f2 16- 8#f2 8- 8#g2 16#f2 16- 4#f2 8#d3 4- 8- 8#d3 8#c3 8c3 8- 8c3 8a2 16.#g2 8- 32- 8#g2 8#f2 8e2 8- 8e2 4- 8- 8e3 16#d3 16- 4#d3 4#f3 4c3 4#d3 4#c3 4#g2 4- 16.e3 32- 16#d3 16- 4#d3 4#f3 4c3 4#d3 4#c3 4e3 8#d3 8#c3 8b2 8a2 1#g2 1g2 2#g2 4- 16#g1 16- 16#g1 16- 2#g1 4- 16#g1 16- 16#g1 16- 2#g1 4- 16#g1 16- 16#g1 16- 8#g1 8- 16#g1 16- 16#g1 16- 8#g1 8- 16#g1 16- 16#g1 16- 2#g1',
+
+
+        )
+        self.play_nokia_tone(songs[melodyname], name=melodyname)
+
     def tone(self, hz: int, duration=0, duty=30):
+        """
+        Проигрывает звук с заданной частотой определённое время ы мс
+        :param hz: частота в герцах
+        :param duration: время звучания в милисекундах
+        :param duty: влияет на громкость сигнала. 1-25 сигнал увеличивается, затем снова затухает до 26-50 и так далее
+        """
         self.buzzer_pin.frequency(int(hz))  # change frequency for change tone
-        self.buzzer_pin.pulse_width_percent(30)
+        self.buzzer_pin.pulse_width_percent(duty)
         delay(duration)
+        self.buzzer_pin.value(0)
 
         if callable(self.callback):
             self.callback(hz)
@@ -338,11 +349,10 @@ class BuzzerPlayer(object):
 
         self.tone(0, 0, 0)
 
-    if MidiFile:
-        def play_midi(self, filename, track=1, transpose=6):
-            midi = MidiFile(filename)
-            tune = midi.read_track(track)
-            self.play_tune(midi.tempo, tune, transpose=transpose, name=filename)
+    def play_midi(self, filename, track=1, transpose=6):
+        midi = MidiFile(filename)
+        tune = midi.read_track(track)
+        self.play_tune(midi.tempo, tune, transpose=transpose, name=filename)
 
     # if RTTTL:
     #     def play_rtttl(self, input):
