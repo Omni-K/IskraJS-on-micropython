@@ -302,10 +302,11 @@ class BuzzerPlayer(object):
         """
         Проигрывает предустановленную мелодию из списка
         :param melodyname: имя мелодии
+        :param transpose: транспонирование мелодии (от 1 до 7)
         """
         #  вдохновение http://forum.amperka.ru/threads/%D0%9C%D0%B5%D0%BB%D0%BE%D0%B4%D0%B8%D0%B8-%D0%B4%D0%BB%D1%8F-%D0%BF%D1%8C%D0%B5%D0%B7%D0%BE%D0%BF%D0%B8%D1%89%D0%B0%D0%BB%D0%BA%D0%B8.272/page-2
         songs = dict(
-            pink_panther="t=200 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 16d2 16c2 16a1 8g1 1a1 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8c2 8e2 8a2 1#g2 8#g1 2a1 8b1 2c2 16#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 8d2 16c2 16a1",
+            pink_panther="t=90 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 16d2 16c2 16a1 8g1 1a1 8#g1 2a1 8b1 2c2 8#g1 8a1 8b1 8c2 8f2 8e2 8c2 8e2 8a2 1#g2 8#g1 2a1 8b1 2c2 16#g1 8a1 8b1 8c2 8f2 8e2 8a1 8c2 8e2 2#d2 8d2 16c2 16a1",
             imperial_march="t=100 4e1 4e1 4e1 8c1 16- 16g1 4e1 8c1 16- 16g1 4e1 4- 4b1 4b1 4b1 8c2 16- 16g1 4#d1 8c1 16- 16g1 4e1 8-",
             starwars="t=100 8#c1 8#c1 16#c1 2#f1 2#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8b1 2#g1 8#c1 8#c1 16#c1 2#f1 2#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8#g1 2#f2 4#c2 8b1 16#a1 8b1 2#g1 4#c1 16#c1 2#d1 8#c2 8b1 8#a1 8#g1 8#f1 16#f1 8#g1 16#a1 4#g1",
             pulp_fiction="t=113 16f1 16f1 16f1 16f1 16f1 16f1 16f1 16f1 16a1 16a1 16a1 16a1 16#a1 16#a1 16#a1 16#a1 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16f1 16e2 16e2 16e2 16e2 16#c2 16#c2 16#c2 16#c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2 16c2",
@@ -322,6 +323,7 @@ class BuzzerPlayer(object):
             mortalkombat="t=140 8a1 8a1 8c2 8a1 8d2 8a1 8e2 8d2 8c2 8c2 8e2 8c2 8g2 8c2 8e2 8c2 8g1 8g1 8b1 8g1 8c2 8g1 8d2 8c2 8f1 8f1 8a1 8f1 8c2 8f1 8c2 8b1",
             ussr="t=100 8g1 4c2 8g1 16a1 4b1 8e1 8e1 4a1 8g1 16f1 4g1 8c1 8c1 4d1 8d1 8e1 4f1 8f1 8g1 4a1 8b1 8c2 4d2 8- 8g1 4e2 8d2 16c2 4d2 8b1 8g1 4c2 8b1 16a1 4b1 8e1 8e1 4a1 8g1 8f1 4g1 8c1 8c1 4c2 8b1 16a1 4g1",
             bach_fuga="t=100 8a1 8e1 8b1 8e1 8c2 8e1 8a1 8e1 8b1 8e1 8c2 8e1 8d2 8e1 8b1 8e1 8c2 8e1 8d2 8e1 8e2 8e1 8c2 8e1 8d2 8e1 8e2 8e1 8f2 8e1 8d2 8e1 8e2 8e1 8c2 8e1 8d2 8e1 8b1 8e1 8c2 8e1 8a1 8e1 8b1 8e1 8#g1 8e1 4a1",
+            fur_elise="t=140 8e2 8#d2 8e2 8#d2 8e2 8b1 8d2 8c2 4a1 8- 8c1 8e1 8a1 4b1 8- 8e1 8#g1 8b1 4c2 8- 8e1 8e2 8#d2 8e2 8#d2 8e2 8b1 8d2 8c2 4a1 8- 8c1 8e1 8a1 4b1 8- 8e1 8c2 8b1 4a1",
             katyusha="t=100 4d2 8e2 4f2 8d2 8f2 8f2 8e2 8d2 4e2 4a1 4e2 8f2 4g2 8e2 8g2 8g2 8f2 8e2 2d2 4a2 4d3 4c3 8d3 8c3 8#a2 8#a2 8a2 8g2 4a2 4d2 8- 4#a2 8g2 4a2 8- 8f2 8g2 8g2 8f2 8e2 4d2 4-",
             podmoskovnie_vechera="t=100 8d1 8f1 8a1 8f1 4g1 8f1 8e1 4a1 4g1 4d1 4- 8f1 8a1 8c2 8c2 4d2 8c2 8#a1 4a1 4- 4b1 4#c2 8e2 8d2 4a1 4- 8e1 8d1 8a1 8g1 4#a1 4- 8c2 8#a1 4a1 8g1 8f1 4a1 4g1 2d1",
             brigada="t=112 16#g1 16#d2 16#c2 16e2 8#d2 16#d2 16b1 16#c2 16#d2 8e2 16#d2 2#g1 16#g1 16#d2 16#c2 16e2 4#d2 16#c2 16b1 8#a1 16b1 2#f1 16#g1 16#d2 16#c2 16e2 8#d2 16#d2 16b1 16#c2 16#d2 8e2 16#d2 4#f1 16- 16- 8#g1 16#a1 16b1 8#c2 16b1 4#g1 16- 16#g1 16b1 16#a1 16#g1 8#f1 2#g1",
