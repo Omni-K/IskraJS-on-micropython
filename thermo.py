@@ -49,5 +49,5 @@ class Thermo(ADC):
             return self.get_temperature_in_kelvin(digits)
         elif litera == 'f' or litera == 'farenheit':
             return self.get_temperature_in_farenheit(digits)
-        elif litera == 'r' or litera == 'reomura':
+        elif litera == 'r' or litera == 'reaumur':
             return self.get_temperature_in_reaumur(digits)
