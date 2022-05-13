@@ -7,7 +7,7 @@
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
-__version__ = "1.5.0"
+__version__ = "1.7.0"
 __repo__ = "https://github.com/Omni-K/Iskra_JS_micropython"
 
 from math import pow
@@ -259,6 +259,10 @@ class BuzzerPlayer(object):
 
         self.buzzer_pin = PWM(pin, freq=10000, width=0)
         self.callback = callback
+
+    def shutup(self):
+        p = self.buzzer_pin.pin
+        self.__init__(self, str(p), self.callback)
 
     def from_file(self, filename, chunksize=5):
         with open(filename, "rb") as f:
