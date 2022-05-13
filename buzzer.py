@@ -7,7 +7,7 @@
 __author__ = "Nikolay Putko"
 __copyright__ = "Nikolay Putko, 2022 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT (as used by MicroPython)."
-__version__ = "1.7.0"
+__version__ = "1.7.1"
 __repo__ = "https://github.com/Omni-K/Iskra_JS_micropython"
 
 from math import pow
@@ -338,7 +338,7 @@ class BuzzerPlayer(object):
         else:
             print('Допустимые имена мелодий:')
             for idx, name in enumerate(songs.keys(), 1):
-                print(f' {idx}\t{name}')
+                print(idx,'\t',name)
 
     def tone(self, hz: int, duration=0, duty=30):
         """
@@ -384,3 +384,4 @@ class BuzzerPlayer(object):
     #         tune = RTTTL(input)
     #         for freq, msec in tune.notes():
     #             self.tone(freq, msec)
+
