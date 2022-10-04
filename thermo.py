@@ -7,7 +7,7 @@ class Thermo(ADC):
     Класс для более простой работы с термометром
     """
     def __int__(self, pin: str):
-        super(Thermo, self).__int__(Pin(pin, Pin.OUT))
+        super(Thermo, self).__int__(Pin(pin, Pin.IN))
 
     def get_temperature_in_celsium(self, digits=2) -> float:
         """

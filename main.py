@@ -1,47 +1,51 @@
-from motors2wd import Motors2WD
-from ir import AmperkaIRC
-from led import LED
-from ultrasonic import Ultrasonic
-from pyb import delay
-from servo import ServoFS90
+import keyboardkeys as kb
+import pyb
+import machine
 
-ircontroller = None
-moving_platform = Motors2WD()
-moving_platform.reverse_motors()
-head_led = LED('P2')
-sonar = Ultrasonic('P9', 'P8')
-head_servo = ServoFS90('A5')
+print(pyb.info())
 
-head_angle = 90
-speed = 100
+for i in range(5):
+    print(machine.rng())
 
+print(dir('machine'))
 
-#  Функция для пульта
-def ir_callback(data, addr, ctrl):
-    global speed, head_angle
-    btn = ircontroller.button(data)
-    print(btn)
+pyb_dir = ['__class__',
+           '__name__',
+           'main',
+           'stop',
+           'DAC',
+           'RTC',
+           'ADC',
+           'ADCAll', 'CAN', 'ExtInt', 'Flash', 'I2C', 'LED', 'Pin', 'SPI', 'Servo',
+           'Switch', 'Timer', 'UART', 'USB_HID', 'USB_VCP',
+           'bootloader', 'country', 'delay', 'dht_readinto', 'disable_irq',
+           'elapsed_micros', 'elapsed_millis', 'enable_irq', 'fault_debug', 'freq', 'hard_reset',
+           'have_cdc', 'hid', 'hid_keyboard', 'hid_mouse', 'info', 'micros', 'millis',
+           'mount', 'pwm', 'repl_info', 'repl_uart', 'rng', 'servo', 'standby',
+           'sync', 'udelay', 'unique_id', 'usb_mode', 'wfi']
 
-    if btn == 'TOP':
-        speed = 100
-        moving_platform.forward(abs(speed))
-    if btn == 'BOTTOM':
-        speed = -100
-        moving_platform.backward(abs(speed))
-    if btn == 'PLAY':
-        moving_platform.stop()
-    if btn == 'GREEN':
-        head_led.toggle()
-    if btn == 'TOP_RIGHT':
-        head_angle = head_angle + 10 if head_angle < 180 else 180
-    if btn == 'TOP_LEFT':
-        head_angle = head_angle - 10 if head_angle > 0 else 0
-
-
-ircontroller = AmperkaIRC('P1', ir_callback)
-
+pyb.usb_mode('VCP+MSC')
+b = pyb.Pin('BTN1')
+prev = 1
+print(dir(b.board))
 while True:
-    #print(f'Distance: {sonar.distance_in_cm()} cm')
-    delay(5)
-    head_servo.set_angle(head_angle)
+    curr = b.value()
+    print(prev, curr)
+    if curr < prev:
+        print('pressed!')
+        import pyb
+        pyb.usb_mode('VCP+HID', hid=pyb.hid_keyboard)
+        hid = pyb.USB_HID()
+        buf = bytearray(8)
+        buf[2] = kb.KEY_1_EXCLAMATION_MARK
+        hid.send(buf)  #
+        buf[2] = 0
+        hid.send(buf)  #
+    prev = curr
+    pyb.delay(500)
+    pyb.usb_mode('VCP+MSC')
+
+
+
+
 
